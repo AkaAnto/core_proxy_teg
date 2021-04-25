@@ -24,12 +24,20 @@ def client_create():
         data = request.get_json()
         name = data.get('name')
         identifier = data.get('identifier')
-        ClientView.add_client(name=name, identifier=identifier)
-        response = app.response_class(
-            response=json.dumps(data),
-            status=201,
-            mimetype='application/json'
-        )
+        try:
+            ClientView.add_client(name=name, identifier=identifier)
+            response = app.response_class(
+                response=json.dumps(data),
+                status=201,
+                mimetype='application/json'
+            )
+        except Exception as e:
+            data = {'exception': str(e)}
+            response = app.response_class(
+                response=json.dumps(data),
+                status=400,
+                mimetype='application/json'
+            )
     return response
 
 app = app
