@@ -1,5 +1,7 @@
 from main import db
 from random import randint
+from decimal import *
+
 
 class ProxyModel(object):
 
@@ -49,4 +51,51 @@ class Account(db.Model, ProxyModel):
         return str(self.balance)
 
     def __repr__(self):
-        return '<# %s Balance %d>' % (self.identifier, self.balance)
+        return '<# %s Cuenta %d>' % (self.identifier, self.get_balance_as_string())
+
+
+class AccountTransaction(db.Model, ProxyModel):
+    __tablename__ = 'account_transaction'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sender_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
+    reciever_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
+    identifier = db.Column(db.String(10), unique=True)
+    created = db.Column(db.DateTime, default=db.func.current_timestamp())
+    account_transaction_type = db.Column(db.Enum(u'P2P', u'P2B'), default=u'P2B')
+    amount = db.Column(db.Numeric(10,2))
+    details = db.Column(db.String(100), default="No details")
+    
+    def __init__(self, sender_account_id, reciever_account_id, account_transaction_type, amount, details="No details"):
+        self.sender_account_id = sender_account_id
+        self.reciever_account_id = reciever_account_id
+        self.account_transaction_type = account_transaction_type
+        self.amount = amount
+        self.details = details
+
+    def generate_transaction_number(self):
+        return randint(0, (10**9)-1)
+
+    def get_amount_as_string(self):
+        return str(self.amount)
+
+    def save(self):
+        if not self.id:
+            self.identifier = str(self.generate_transaction_number())
+            if self.execute_transaction():
+                super().save()
+
+    def execute_transaction(self):
+        try:
+            sender_account = Account.query.filter_by(id=self.sender_account_id).first()
+            reciever_account = Account.query.filter_by(id=self.reciever_account_id).first()
+            sender_account.balance = Decimal(sender_account.balance) - Decimal(self.amount)
+            sender_account.save()
+            reciever_account.balance = Decimal(reciever_account.balance) + Decimal(self.amount)
+            reciever_account.save()
+            return True
+        except Exception as e:
+            raise Exception("Problem executing transaction: %s" % str(e))
+
+    def __repr__(self):
+        return '# %s Transferencia %s' % (self.identifier, self.get_amount_as_string())

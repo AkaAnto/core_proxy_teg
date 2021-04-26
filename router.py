@@ -1,7 +1,7 @@
 from flask import request
 from flask import json
 from main import app
-from views import ClientView, AccountView
+from views import ClientView, AccountView, AccountTransactionView
 
 @app.route('/health')
 def health():
@@ -60,6 +60,37 @@ def account_create():
         data = request.get_json()
         try:
             new = AccountView.add_account(data)
+            response = app.response_class(
+                response=json.dumps(new),
+                status=201,
+                mimetype='application/json'
+            )
+        except Exception as e:
+            data = {'exception': str(e)}
+            response = app.response_class(
+                response=json.dumps(data),
+                status=400,
+                mimetype='application/json'
+            )
+    return response
+
+@app.route('/transaction/<identifier>', methods=['GET'])
+def transaction_detail(identifier):
+    transaction = AccountTransactionView.get_transaction_with_identifier(identifier)
+    transaction.amount = transaction.get_amount_as_string()
+    response = app.response_class(
+        response=json.dumps(transaction),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route('/transaction', methods=['POST'])
+def transaction_create():
+    if request.method == 'POST':
+        data = request.get_json()
+        try:
+            new = AccountTransactionView.add_transaction(data)
             response = app.response_class(
                 response=json.dumps(new),
                 status=201,
