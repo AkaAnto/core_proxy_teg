@@ -43,8 +43,12 @@ class AccountTransactionView(object):
     @staticmethod
     def get_transaction_with_identifier(identifier):
         transaction = AccountTransaction.query.filter_by(identifier=identifier).first()
-        transaction.amount = transaction.get_amount_as_string()
-        return transaction
+        sender = Account.query.filter_by(id=transaction.sender_account_id).first()
+        reciever = Account.query.filter_by(id=transaction.reciever_account_id).first()
+        response = {'type': transaction.account_transaction_type, 'sender':sender.identifier, 
+        'reciever': reciever.identifier, 'amount': transaction.get_amount_as_string(),
+        'created': transaction.created, 'details': transaction.details}
+        return response
 
     @staticmethod
     def validate_transaction(sender_account, amount):

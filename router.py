@@ -77,7 +77,7 @@ def account_create():
 @app.route('/transaction/<identifier>', methods=['GET'])
 def transaction_detail(identifier):
     transaction = AccountTransactionView.get_transaction_with_identifier(identifier)
-    transaction.amount = transaction.get_amount_as_string()
+    print("transaction", transaction)
     response = app.response_class(
         response=json.dumps(transaction),
         status=200,

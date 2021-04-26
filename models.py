@@ -84,6 +84,8 @@ class AccountTransaction(db.Model, ProxyModel):
             self.identifier = str(self.generate_transaction_number())
             if self.execute_transaction():
                 super().save()
+        else:
+            self.amount = self.get_amount_as_string()
 
     def execute_transaction(self):
         try:
