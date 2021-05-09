@@ -1,7 +1,6 @@
 # core_proxy_teg
-## Create MYSQL Database
-0. export PATH=$PATH:/usr/local/mysql/bin, cp -r /usr/local/mysql/lib/* /usr/local/lib/
-1. mysql
+## Create Postgres Database
+1. psql
 2. create database core_bancario;
 3. use core_bancario;
 4. python3 manage.py db init

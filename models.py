@@ -14,7 +14,7 @@ class ProxyModel(object):
 class Client(db.Model, ProxyModel):
     __tablename__ = 'client'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     url = db.Column(db.String(250),)
     name = db.Column(db.String(50))
     identifier = db.Column(db.String(20), unique=True)
@@ -31,10 +31,10 @@ class Client(db.Model, ProxyModel):
 class Account(db.Model, ProxyModel):
     __tablename__ = 'account'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     client_id = db.Column(db.Integer, db.ForeignKey(Client.id), primary_key=True)
     identifier = db.Column(db.String(10), unique=True)
-    account_type = db.Column(db.Enum(u'Ahorro', u'Corriente'), default=u'Corriente')
+    account_type = db.Column(db.Enum(u'Ahorro', u'Corriente', name=u'type_account'), default=u'Corriente')
     balance = db.Column(db.Numeric(10,2))
     
     def __init__(self, client_id, balance, account_type):
@@ -62,7 +62,7 @@ class AccountTransaction(db.Model, ProxyModel):
     reciever_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
     identifier = db.Column(db.String(10), unique=True)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    account_transaction_type = db.Column(db.Enum(u'P2P', u'P2B'), default=u'P2B')
+    account_transaction_type = db.Column(db.Enum(u'P2P', u'P2B', name='transaction_type'), default=u'P2B')
     amount = db.Column(db.Numeric(10,2))
     details = db.Column(db.String(100), default="No details")
     
