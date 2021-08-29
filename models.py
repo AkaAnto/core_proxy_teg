@@ -14,7 +14,7 @@ class ProxyModel(object):
 class Client(db.Model, ProxyModel):
     __tablename__ = 'client'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     url = db.Column(db.String(250),)
     name = db.Column(db.String(50))
     identifier = db.Column(db.String(20), unique=True)
@@ -31,7 +31,7 @@ class Client(db.Model, ProxyModel):
 class Account(db.Model, ProxyModel):
     __tablename__ = 'account'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     client_id = db.Column(db.Integer, db.ForeignKey(Client.id), primary_key=True)
     identifier = db.Column(db.String(10), unique=True)
     account_type = db.Column(db.Enum(u'Ahorro', u'Corriente', name=u'type_account'), default=u'Corriente')
