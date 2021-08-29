@@ -25,3 +25,4 @@ SQLAlchemy==1.4.9
 toml==0.10.2
 Werkzeug==1.0.1
 wrapt==1.12.1
+cx-Oracle==8.2.1
