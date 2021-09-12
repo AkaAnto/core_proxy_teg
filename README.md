@@ -40,4 +40,9 @@ export DATABASE_URL="postgresql:///core_bancario"
 
 ### Fix para error de migrate/upgrade de oracle/postgress
 1. Oracle remove unique constraint from primary keys
-2. Postgress add unique constraint from primary keys
+2. Postgres add unique constraint from primary keys
+
+#Running with docker
+1. Build docker build -t proxy
+2. Run docker run -i -p 5000:5000 -t proxy
+3. python3 app.py
