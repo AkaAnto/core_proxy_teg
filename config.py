@@ -13,6 +13,8 @@ def load_database_config():
         database_vars = dotenv_values(".env.mysql")
     if 'postgres' in selected_database:
         database_vars = dotenv_values(".env.postgres")
+    if 'sqlserver' in selected_database:
+        database_vars = dotenv_values(".env.sqlserver")
     return database_vars
 
 database_vars = load_database_config()

@@ -16,6 +16,7 @@ RUN export PATH
 
 # SqlServer
 RUN yum install -y mssql-server
+# Mysql
 RUN yum install -y mariadb-devel
 # Postgres
 RUN yum install -y postgresql
