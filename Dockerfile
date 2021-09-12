@@ -14,8 +14,13 @@ RUN yum install -y mssql-server
 RUN yum install -y mariadb-devel
 # Postgres
 RUN yum install -y postgresql
+# Oracle
+RUn yum install -y oracle-release-el7
+
 # Set the working directory to /usr/src/app.
 WORKDIR /usr/src/app
+RUN python3 -m venv venv
+RUN . venv/bin/activate
 
 # Copy the file from the local host to the filesystem of the container at the working directory.
 COPY requirements.txt ./
@@ -27,3 +32,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 5000
+
