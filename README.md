@@ -29,6 +29,11 @@ export DATABASE_URL="postgresql:///core_bancario"
 3. pip3 install cx-Oracle==8.2.1
 
 ## Database Management
+0. Delete migrations folder
 1. python3 manage.py db init
 2. python3 manage.py db migrate
 3. python3 manage.py db upgrade
+
+### Fix para error psycopg2-binary
+1. sudo apt-get install postgresql-server-dev-all
+2. sudo apt-get install postgresql-common

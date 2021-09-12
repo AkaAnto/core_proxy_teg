@@ -14,7 +14,7 @@ class ProxyModel(object):
 class Client(db.Model, ProxyModel):
     __tablename__ = 'client'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     url = db.Column(db.String(250),)
     name = db.Column(db.String(50))
     identifier = db.Column(db.String(20), unique=True)
@@ -32,7 +32,7 @@ class Account(db.Model, ProxyModel):
     __tablename__ = 'account'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    client_id = db.Column(db.Integer, db.ForeignKey(Client.id), primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey(Client.id), primary_key=True, unique=True)
     identifier = db.Column(db.String(10), unique=True)
     account_type = db.Column(db.Enum(u'Ahorro', u'Corriente', name=u'type_account'), default=u'Corriente')
     balance = db.Column(db.Numeric(10,2))
@@ -57,7 +57,7 @@ class Account(db.Model, ProxyModel):
 class AccountTransaction(db.Model, ProxyModel):
     __tablename__ = 'account_transaction'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     sender_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
     reciever_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
     identifier = db.Column(db.String(10), unique=True)
