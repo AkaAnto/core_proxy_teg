@@ -1,10 +1,34 @@
 # core_proxy_teg
-## Create Postgres Database
-1. psql
-2. create database core_bancario;
-3. use core_bancario;
-4. python3 manage.py db init
 
-## Migrate MYSQL Database
-1. python3 manage.py db migrate
-2. python3 manage.py db upgrade
+## .env file example
+export APP_SETTINGS="config.DevelopmentConfig"
+export SECRET_KEY="sins88Y7402ksm564aa11"
+export USE_DATABASE="oracle"
+export SQLALCHEMY_TRACK_MODIFICATIONS=False
+
+## Postgres .env.postgres example
+export DATABASE_URL="postgresql:///core_bancario"
+
+## Mysql .env.mysql example
+export DATABASE_URL="mysql://root:core_bancario@localhost/core_bancario"
+
+## Oracle .env.oracle example
+export DATABASE_URL="postgresql:///core_bancario"
+
+
+## Mysql Notes
+1. Install https://github.com/PyMySQL/mysqlclient
+2. yum install python3-devel mysql-devel
+
+## Postgres Notes
+1. pip3 install psycopg2-binary
+
+## Oracle Notes
+1. https://yum.oracle.com/oracle-instant-client.html
+2. https://cx-oracle.readthedocs.io/en/latest/user_guide/installation.html)
+3. pip3 install cx-Oracle==8.2.1
+
+## Database Management
+1. python3 manage.py db init
+2. python3 manage.py db migrate
+3. python3 manage.py db upgrade
