@@ -37,3 +37,7 @@ export DATABASE_URL="postgresql:///core_bancario"
 ### Fix para error psycopg2-binary
 1. sudo apt-get install postgresql-server-dev-all
 2. sudo apt-get install postgresql-common
+
+### Fix para error de migrate/upgrade de oracle/postgress
+1. Oracle remove unique constraint from primary keys
+2. Postgress add unique constraint from primary keys
