@@ -8,6 +8,11 @@ RUN yum install -y python36-setuptools  # install easy_install-3.4
 RUN easy_install-3.6 pip
 RUN curl https://packages.microsoft.com/config/rhel/8/mssql-server-2019.repo -o /etc/yum.repos.d/mssql-server-2019.repo
 RUN curl https://packages.microsoft.com/config/rhel/8/prod.repo -o /etc/yum.repos.d/msprod.repo
+RUN yum install -y nano
+RUN export CLIENT_HOME=/usr/lib/oracle/21/client64
+RUN export LD_LIBRARY_PATH=$CLIENT_HOME/lib
+RUN PATH=$PATH:$HOME/bin:$CLIENT_HOME/bin
+RUN export PATH
 
 # SqlServer
 RUN yum install -y mssql-server
@@ -15,8 +20,8 @@ RUN yum install -y mariadb-devel
 # Postgres
 RUN yum install -y postgresql
 # Oracle
-RUn yum install -y oracle-release-el7
-
+RUN yum install -y  oracle-instantclient-release-el7
+RUN yum install -y oracle-instantclient-basic
 # Set the working directory to /usr/src/app.
 WORKDIR /usr/src/app
 RUN python3 -m venv venv
