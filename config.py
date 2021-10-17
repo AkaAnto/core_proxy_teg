@@ -1,8 +1,10 @@
 import os
+import urllib
 from dotenv import dotenv_values
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 env_vars = dotenv_values(".env")
+
 
 def load_database_config():
     database_vars = {}
@@ -16,7 +18,13 @@ def load_database_config():
     if 'sqlserver' in selected_database:
         database_vars = dotenv_values(".env.sqlserver")
     if 'sybase' in selected_database:
-        database_vars = dotenv_values(".env.sybase")
+        database_vars = {}
+        database_vars['DATABASE_URL'] = 'sybase+pyodbc:///?odbc_connect = %s' % urllib.parse.quote_plus(dotenv_values(".env.sybase"))
+
+
+
+
+
     return database_vars
 
 database_vars = load_database_config()
