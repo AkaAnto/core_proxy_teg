@@ -19,7 +19,7 @@ def load_database_config():
         database_vars = dotenv_values(".env.sqlserver")
     if 'sybase' in selected_database:
         database_vars = {}
-        database_vars['DATABASE_URL'] = 'sybase+pyodbc:///?odbc_connect = %s' % urllib.parse.quote_plus(dotenv_values(".env.sybase"))
+        database_vars['DATABASE_URL'] = 'sybase+pyodbc:///?odbc_connect = %s' % dotenv_values(".env.sybase")
 
 
 
