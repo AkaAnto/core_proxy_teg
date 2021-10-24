@@ -41,7 +41,7 @@ class Config(object):
 
     @staticmethod
     def show_config():
-        config_message = "Debug=%s - Testing=%s Datbase Engine=%s" % (Config.DEBUG, Config.TESTING. Config.SQLALCHEMY_DATABASE_URI)
+        config_message = "Debug=%s - Testing=%s Database Engine=%s" % (Config.DEBUG, Config.TESTING. Config.SQLALCHEMY_DATABASE_URI)
         print("Config loaded", config_message)
 
 

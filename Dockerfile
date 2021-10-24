@@ -23,6 +23,9 @@ RUN yum install -y postgresql
 # Oracle
 RUN yum install -y  oracle-instantclient-release-el7
 RUN yum install -y oracle-instantclient-basic
+RUN yum install -y unixODBC-devel
+
+RUN yum install -y gcc-c++
 # Set the working directory to /usr/src/app.
 WORKDIR /usr/src/app
 RUN python3 -m venv venv
