@@ -1,6 +1,9 @@
 from main import db
 from random import randint
 from decimal import *
+import hashlib
+import json
+from time import time
 
 
 class ProxyModel(object):
@@ -59,21 +62,22 @@ class AccountTransaction(db.Model, ProxyModel):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     sender_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
-    reciever_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
-    identifier = db.Column(db.String(10), unique=True)
+    receiver_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
+    identifier = db.Column(db.String(15), unique=True)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    account_transaction_type = db.Column(db.Enum(u'P2P', u'P2B', name='transaction_type'), default=u'P2B')
-    amount = db.Column(db.Numeric(10,2))
+    account_transaction_type = db.Column(db.Enum(u'P2P', u'P2C', u'C2C', name='transaction_type'), default=u'P2C')
+    amount = db.Column(db.Numeric(10, 2))
     details = db.Column(db.String(100), default="No details")
     
-    def __init__(self, sender_account_id, reciever_account_id, account_transaction_type, amount, details="No details"):
+    def __init__(self, sender_account_id, receiver_account_id, account_transaction_type, amount, details="No details"):
         self.sender_account_id = sender_account_id
-        self.reciever_account_id = reciever_account_id
+        self.receiver_account_id = receiver_account_id
         self.account_transaction_type = account_transaction_type
         self.amount = amount
         self.details = details
 
-    def generate_transaction_number(self):
+    @staticmethod
+    def generate_transaction_number():
         return randint(0, (10**9)-1)
 
     def get_amount_as_string(self):
@@ -81,7 +85,7 @@ class AccountTransaction(db.Model, ProxyModel):
 
     def save(self):
         if not self.id:
-            self.identifier = str(self.generate_transaction_number())
+            self.identifier = str(AccountTransaction.generate_transaction_number())
             if self.execute_transaction():
                 super().save()
         else:
@@ -90,11 +94,11 @@ class AccountTransaction(db.Model, ProxyModel):
     def execute_transaction(self):
         try:
             sender_account = Account.query.filter_by(id=self.sender_account_id).first()
-            reciever_account = Account.query.filter_by(id=self.reciever_account_id).first()
+            receiver_account = Account.query.filter_by(id=self.receiver_account_id).first()
             sender_account.balance = Decimal(sender_account.balance) - Decimal(self.amount)
             sender_account.save()
-            reciever_account.balance = Decimal(reciever_account.balance) + Decimal(self.amount)
-            reciever_account.save()
+            receiver_account.balance = Decimal(receiver_account.balance) + Decimal(self.amount)
+            receiver_account.save()
             return True
         except Exception as e:
             raise Exception("Problem executing transaction: %s" % str(e))
