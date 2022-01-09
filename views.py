@@ -2,6 +2,7 @@ from decimal import *
 from models import Client, Account, AccountTransaction
 
 
+
 class ClientView(object):
 
     @staticmethod
@@ -53,7 +54,6 @@ class AccountTransactionView(object):
     @staticmethod
     def validate_transaction(sender_account, amount):
         return Decimal(sender_account.balance) > Decimal(amount)
-    
 
     @staticmethod
     def add_transaction(request_data):

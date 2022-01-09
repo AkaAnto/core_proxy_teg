@@ -3,6 +3,8 @@ from dotenv import dotenv_values
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 env_vars = dotenv_values(".env")
+if env_vars == None:
+    env_vars = os.environ
 
 def load_database_config():
     database_vars = {}
@@ -17,6 +19,8 @@ def load_database_config():
         database_vars = dotenv_values(".env.sqlserver")
     if 'db2' in selected_database:
         database_vars = dotenv_values(".env.db2")
+    if database_vars == None:
+        database_vars = {'DATABASE_URL': os.getenv('DATABASE_URL')}
     return database_vars
 
 database_vars = load_database_config()
