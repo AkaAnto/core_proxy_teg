@@ -14,7 +14,6 @@ lazy-object-proxy==1.6.0
 Mako==1.1.4
 MarkupSafe==1.1.1
 mccabe==0.6.1
-mysqlclient==2.0.3
 pylint==2.8.1
 python-dateutil==2.8.1
 python-dotenv==0.17.0
@@ -24,6 +23,6 @@ SQLAlchemy==1.4.9
 toml==0.10.2
 Werkzeug==1.0.1
 wrapt==1.12.1
-cx-Oracle==8.2.1
-psycopg2-binary==2.9.1
-pymssql
+ibm_db
+ibm_db_sa
+pyodbc
