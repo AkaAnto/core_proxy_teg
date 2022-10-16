@@ -37,5 +37,10 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # Copy the project source code from the local host to the filesystem of the container at the working directory.
 COPY . .
 
+RUN python3 manage.py db init
+RUN python3 manage.py db migrate
+RUN python3 manage.py db upgrade
+
 EXPOSE 5000
+CMD ["python3", "main.py"]
 

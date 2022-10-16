@@ -1,0 +1,1 @@
+export DATABASE_URL="ibm_db_sa+pyodbc400://db2:jaso280191@192.168.1.105:50000/sample;currentSchema=db2"

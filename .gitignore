@@ -2,10 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.DS_STORE
+virtualenv/
 # C extensions
 *.so
-
+.idea/
+.vscode/
 # Distribution / packaging
 .Python
 build/
