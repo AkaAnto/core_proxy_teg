@@ -42,5 +42,5 @@ RUN python3 manage.py db migrate
 RUN python3 manage.py db upgrade
 
 EXPOSE 5000
-CMD ["python3", "main.py"]
-
+ENTRYPOINT [ "python" ]
+CMD ["main.py" ]
