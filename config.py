@@ -27,7 +27,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = env_vars['SECRET_KEY']
-    SQLALCHEMY_DATABASE_URI = database_vars['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = env_vars['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APP_SETTINGS = env_vars['APP_SETTINGS']
 
