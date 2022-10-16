@@ -25,8 +25,6 @@ RUN yum install -y  oracle-instantclient-release-el7
 RUN yum install -y oracle-instantclient-basic
 # Set the working directory to /usr/src/app.
 WORKDIR /usr/src/app
-RUN python3 -m venv venv
-RUN . venv/bin/activate
 
 # Copy the file from the local host to the filesystem of the container at the working directory.
 COPY requirements.txt ./
@@ -42,5 +40,4 @@ RUN python3 manage.py db migrate
 RUN python3 manage.py db upgrade
 
 EXPOSE 5000
-ENTRYPOINT [ "python" ]
-CMD ["main.py" ]
+CMD ["python3", "app.py" ]
