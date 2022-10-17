@@ -8,14 +8,22 @@ env_vars = dotenv_values(".env")
 def load_database_config():
     database_vars = {}
     selected_database = [env_vars['USE_DATABASE']]
-    if 'oracle' in selected_database:
-        database_vars = dotenv_values(".env.oracle")
-    if 'mysql' in selected_database:
-        database_vars = dotenv_values(".env.mysql")
-    if 'postgres' in selected_database:
-        database_vars = dotenv_values(".env.postgres")
-    if 'sqlserver' in selected_database:
-        database_vars = dotenv_values(".env.sqlserver")
+    if 'oracleX' in selected_database:
+        database_vars = dotenv_values(".env.oracleX")
+    if 'oracleY' in selected_database:
+        database_vars = dotenv_values(".env.oracleY")
+    if 'mysqlX' in selected_database:
+        database_vars = dotenv_values(".env.mysqlX")
+    if 'mysqlY' in selected_database:
+        database_vars = dotenv_values(".env.mysqlY")
+    if 'postgresX' in selected_database:
+        database_vars = dotenv_values(".env.postgresX")
+    if 'postgresY' in selected_database:
+        database_vars = dotenv_values(".env.postgresY")
+    if 'sqlserverX' in selected_database:
+        database_vars = dotenv_values(".env.sqlserverX")
+    if 'sqlserverY' in selected_database:
+        database_vars = dotenv_values(".env.sqlserverY")
     return database_vars
 
 
