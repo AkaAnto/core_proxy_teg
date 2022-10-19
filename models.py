@@ -17,7 +17,7 @@ class ProxyModel(object):
 class Client(db.Model, ProxyModel):
     __tablename__ = 'client'
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     url = db.Column(db.String(250),)
     name = db.Column(db.String(50))
     identifier = db.Column(db.String(20), unique=True)
