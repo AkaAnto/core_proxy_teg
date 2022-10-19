@@ -61,8 +61,8 @@ class AccountTransaction(db.Model, ProxyModel):
     __tablename__ = 'account_transaction'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sender_account_id = db.Column(db.Integer, db.ForeignKey(Account.id))
-    receiver_account_id = db.Column(db.Integer, db.ForeignKey(Account.id))
+    sender_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
+    receiver_account_id = db.Column(db.Integer, db.ForeignKey(Account.id), primary_key=True)
     identifier = db.Column(db.String(15), unique=True)
     created = db.Column(db.DateTime, default=db.func.current_timestamp())
     account_transaction_type = db.Column(db.Enum(u'P2P', u'P2C', u'C2C', name='transaction_type'), default=u'P2C')
