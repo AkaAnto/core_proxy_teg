@@ -35,10 +35,10 @@ class Account(db.Model, ProxyModel):
     __tablename__ = 'account'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    client_id = db.Column(db.Integer, db.ForeignKey(Client.id), primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey(Client.id))
     identifier = db.Column(db.String(10), unique=True)
     account_type = db.Column(db.Enum(u'Ahorro', u'Corriente', name=u'type_account'), default=u'Corriente')
-    balance = db.Column(db.Numeric(10,2))
+    balance = db.Column(db.Numeric(10, 2))
     
     def __init__(self, client_id, balance, account_type):
         self.balance = balance
