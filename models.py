@@ -105,3 +105,39 @@ class AccountTransaction(db.Model, ProxyModel):
 
     def __repr__(self):
         return '# %s Transferencia %s' % (self.identifier, self.get_amount_as_string())
+
+
+class AccountTransactionLog(db.Model, ProxyModel):
+    __tablename__ = 'account_transaction_log'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sender_account_id = db.Column(db.String(15), unique=True)
+    receiver_account_id = db.Column(db.String(15), unique=True)
+    identifier = db.Column(db.String(15), unique=True)
+    amount = db.Column(db.Numeric(10, 2))
+    details = db.Column(db.String(100), default="No details")
+    created = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    def __init__(self, sender_account_id, receiver_account_id, amount, details="No details"):
+        self.sender_account_id = sender_account_id
+        self.receiver_account_id = receiver_account_id
+        self.amount = amount
+        self.details = details
+
+    @staticmethod
+    def generate_transaction_number():
+        return randint(0, (10 ** 9) - 1)
+
+    def get_amount_as_string(self):
+        return str(self.amount)
+
+    def save(self):
+        if not self.id:
+            self.identifier = str(AccountTransaction.generate_transaction_number())
+            if self.execute_transaction():
+                super().save()
+        else:
+            self.amount = self.get_amount_as_string()
+
+    def __repr__(self):
+        return '# %s Transferencia %s' % (self.identifier, self.get_amount_as_string())

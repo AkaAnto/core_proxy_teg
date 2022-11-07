@@ -1,5 +1,5 @@
 from decimal import *
-from models import Client, Account, AccountTransaction
+from models import Client, Account, AccountTransaction, AccountTransactionLog
 
 
 class ClientView(object):
@@ -53,10 +53,9 @@ class AccountTransactionView(object):
     @staticmethod
     def validate_transaction(sender_account, amount):
         return Decimal(sender_account.balance) > Decimal(amount)
-    
 
     @staticmethod
-    def add_transaction(request_data):
+    def add_transaction_old(request_data):
         sender_account_identifier = request_data.get('sender_account_number')
         sender_account = AccountView.get_account_with_identifier(sender_account_identifier)
         reciever_account_identifier = request_data.get('reciever_account_number')
@@ -73,3 +72,16 @@ class AccountTransactionView(object):
         else:
             response = {'message': 'Problem creating transaction'}
         return response
+
+    @staticmethod
+    def add_transaction(request_data):
+        sender_account_identifier = request_data.get('sender_account_number')
+        reciever_account_identifier = request_data.get('reciever_account_number')
+        amount = Decimal(request_data.get('amount'))
+        new = AccountTransactionLog(sender_account_id=sender_account_identifier, reciever_account_id=reciever_account_identifier,  amount=amount)
+        new.save()
+        response = {'amount': new.get_amount_as_string(), 'sender': sender_account_identifier,
+                    'reciever': reciever_account_identifier, 'number': new.identifier}
+
+        return response
+
