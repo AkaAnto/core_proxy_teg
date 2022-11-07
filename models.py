@@ -134,8 +134,7 @@ class AccountTransactionLog(db.Model, ProxyModel):
     def save(self):
         if not self.id:
             self.identifier = str(AccountTransaction.generate_transaction_number())
-            if self.execute_transaction():
-                super().save()
+            super().save()
         else:
             self.amount = self.get_amount_as_string()
 
