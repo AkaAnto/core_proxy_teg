@@ -78,7 +78,7 @@ class AccountTransactionView(object):
         sender_account_identifier = request_data.get('sender_account_number')
         reciever_account_identifier = request_data.get('reciever_account_number')
         amount = Decimal(request_data.get('amount'))
-        new = AccountTransactionLog(sender_account_id=sender_account_identifier, reciever_account_id=reciever_account_identifier,  amount=amount)
+        new = AccountTransactionLog(sender_account_id=sender_account_identifier, receiver_account_id=reciever_account_identifier,  amount=amount)
         new.save()
         response = {'amount': new.get_amount_as_string(), 'sender': sender_account_identifier,
                     'reciever': reciever_account_identifier, 'number': new.identifier}
